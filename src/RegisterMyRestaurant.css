@@ -1,0 +1,214 @@
+/* General Styles for the Register Page */
+.register-restaurant-page {
+ display: flex;
+ justify-content: center;
+ /* Centers content horizontally */
+ flex-direction: column;
+ min-height: 100vh;
+ /* Makes the container take full screen height */
+ width: 100%;
+ /* Ensures it takes the full width of the screen */
+
+ 
+}
+/* Content Wrapper */
+.content-wrapper {
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ /* Space between form and footer */
+ flex-grow: 1;
+ /* Ensures the content wrapper takes the full height */
+ width: 100%;
+}
+
+/* Header */
+.register-header {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 0 20px;
+ height: 100px;
+ width: 100%;
+ position: fixed;
+ background-color: #fff;
+ box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+ top: 0;
+ z-index: 10;
+}
+
+/* Logout button styling */
+.logout-btn {
+ padding: 10px 20px;
+ background-color: #c21807;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ font-size: 1rem;
+ margin-left: 10px;
+}
+
+.logout-btn:hover {
+ background-color: #a21706;
+}
+
+/* Centering the logo */
+.logo {
+ position: absolute;
+ left: 50%;
+ transform: translateX(-50%);
+ max-width: 150px;
+ height: auto;
+}
+
+/* User Info and Logout Button aligned to the right */
+.user-section {
+ position: absolute;
+ right: 20px;
+ display: flex;
+ align-items: center;
+ gap: 20px;
+}
+
+.user-id {
+ font-size: 1rem;
+ color: #333;
+}
+
+/* Progress Bar */
+.progress-bar {
+ width: 100%;
+ height: 10px;
+ background-color: #f0f0f0;
+ margin-top: 100px;
+ /* Ensures it's directly under the header */
+}
+
+.progress {
+ height: 100%;
+ background-color: #c21807;
+ transition: width 0.3s ease;
+}
+
+/* Form Section */
+.form-container {
+ margin: 20px auto;
+ margin-top: 80px;
+ margin-left: 140px;
+ /* Auto-centering the container horizontally */
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+ flex-grow: 1;
+ /* Vertical stacking of child elements */
+ align-items: center;
+ /* Centers child elements horizontally */
+ width: 80%;
+align-content: center;
+ /* Limits the width on larger screens */
+ text-align: center;
+ /* Center-aligns text inside the form container */
+ background: none;
+ /* No background */
+ box-shadow: none;
+ /* Removes the shadow */
+}
+
+/* Other styles remain the same */
+.form-container h2 {
+ font-size: 2rem;
+ margin-bottom: 20px;
+ color: #333;
+}
+.form-group{
+ width: 100%;
+}
+.form-container .form-group {
+ margin-bottom: 20px;
+
+}
+
+.form-container label {
+ display: block;
+ margin-bottom: 10px;
+ font-size: 1.1rem;
+ color: #333;
+}
+
+.form-container input,
+.form-container select {
+ width: 100%;
+ padding: 10px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+}
+
+.form-container .next-btn,
+.form-container .prev-btn,
+.form-container .submit-btn {
+ padding: 10px 20px;
+ font-size: 1rem;
+ background-color: #c21807;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s ease;
+}
+
+.form-container .next-btn:hover,
+.form-container .prev-btn:hover,
+.form-container .submit-btn:hover {
+ background-color: #a21706;
+}
+
+.prev-btn {
+ margin-right: 10px;
+}
+/* Footer */
+.register-footer {
+ position: absolute !important;
+ /* Ensures it's fixed at the bottom */
+ bottom: 0;
+ /* Stays at the bottom of the viewport */
+ width: 100%;
+ /* Takes full width */
+ height: 120px;
+ padding: 10px 30px;
+ 
+ margin-top: auto;
+ background-color: #f9f9f9;
+ box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+ text-align: center;
+ /* Centers the footer content */
+ z-index: 10;
+ /* Keeps it below the header */
+ margin-top: auto !important;
+ justify-content: space-between;
+  display: flex;
+  clear: both;
+  display: hide;
+}
+
+
+.support-info {
+ font-size: 0.9rem;
+ text-align: left;
+}
+
+.phone-number {
+ margin-top: 5px;
+
+}
+
+.call-icon {
+ margin-right: 8px;
+}
+
+.copyright {
+ font-size: 1rem;
+ color: #333;
+ justify-content: right;
+}
+
