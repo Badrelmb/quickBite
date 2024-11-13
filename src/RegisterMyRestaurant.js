@@ -48,9 +48,9 @@ const handleLogout = () => {
       </div>
 <div className="content-wrapper">
       {/* Form Steps */}
-      <div className="form-container">
+      <div className="form-container form-container d-flex flex-column align-items-center">
         {step === 1 && (
-          <div className="step-1">
+          <div className="step-1  w-100">
             <h2>Step 1: Basic Info</h2>
             <form>
               <div className="form-group">
@@ -71,15 +71,17 @@ const handleLogout = () => {
                   <option value="Cafe">Cafe</option>
                 </select>
               </div>
-              <button type="button" onClick={nextStep} className="next-btn">
-                Next
-              </button>
+              <div className="button-container">
+                <button type="button" onClick={nextStep} className="next-btn">
+                  Next
+                </button>
+              </div>
             </form>
           </div>
         )}
 
         {step === 2 && (
-          <div className="step-2">
+          <div className="step-2 w-100">
             <h2>Step 2: Details</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -103,12 +105,14 @@ const handleLogout = () => {
                 <label htmlFor="tables">Number of Tables:</label>
                 <input type="number" id="tables" min="1" required />
               </div>
-              <button type="button" onClick={prevStep} className="prev-btn">
-                Previous
-              </button>
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
+              <div className="button-group">
+                <button type="button" onClick={prevStep} className="prev-btn">
+                  Previous
+                </button>
+                <button type="submit" className="submit-btn">
+                  Submit
+                </button>
+              </div>
             </form>
           </div>
         )}

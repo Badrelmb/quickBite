@@ -13,15 +13,14 @@
 }
 /* Content Wrapper */
 .content-wrapper {
- display: flex;
- flex-direction: column;
- justify-content: space-between;
- /* Space between form and footer */
- flex-grow: 1;
- /* Ensures the content wrapper takes the full height */
- width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center; /* Center content horizontally */
+  padding-top: 120px; /* Space for the fixed header */
+  padding-bottom: 130px; /* Space for the fixed footer */
+  overflow-y: auto;
 }
-
 /* Header */
 .register-header {
  display: flex;
@@ -34,7 +33,7 @@
  background-color: #fff;
  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
  top: 0;
- z-index: 10;
+ z-index: 20;
 }
 
 /* Logout button styling */
@@ -91,28 +90,22 @@
  transition: width 0.3s ease;
 }
 
-/* Form Section */
+/* Form Container */
 .form-container {
- margin: 20px auto;
- margin-top: 80px;
- margin-left: 140px;
- /* Auto-centering the container horizontally */
- display: flex;
- flex-direction: column;
- justify-content: flex-start;
- flex-grow: 1;
- /* Vertical stacking of child elements */
- align-items: center;
- /* Centers child elements horizontally */
- width: 80%;
-align-content: center;
- /* Limits the width on larger screens */
- text-align: center;
- /* Center-aligns text inside the form container */
- background: none;
- /* No background */
- box-shadow: none;
- /* Removes the shadow */
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center form content horizontally */
+  background: none;
+  box-shadow: none;
+  scrollbar-width: none; /* For Firefox */
+}
+.form-container::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
 }
 
 /* Other styles remain the same */
@@ -166,9 +159,59 @@ align-content: center;
 .prev-btn {
  margin-right: 10px;
 }
+
+
+.button-group {
+  display: flex;
+  width: 100%; /* Ensures the container takes full width */
+}
+
+.button-group .prev-btn,
+.button-group .submit-btn {
+  flex: 1; /* Each button takes up equal width */
+  margin: 0 5px; /* Optional: adds a small gap between the buttons */
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #c21807;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-group .prev-btn:hover,
+.button-group .submit-btn:hover {
+  background-color: #a21706;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the button to the right */
+  width: 100%; /* Makes the container take up full width */
+}
+
+.button-container .next-btn {
+  width: 50%; /* Makes the button take up half the container’s width */
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #c21807;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-container .next-btn:hover {
+  background-color: #a21706;
+}
+
+
 /* Footer */
 .register-footer {
- position: absolute !important;
+ position: fixed;
  /* Ensures it's fixed at the bottom */
  bottom: 0;
  /* Stays at the bottom of the viewport */
