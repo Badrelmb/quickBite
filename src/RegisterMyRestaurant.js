@@ -25,7 +25,7 @@ function RegisterMyRestaurant() {
     // Simulate form submission
     console.log("Form submitted");
     // Redirect to the page where the menu will be added
-    navigate('/add-menu'); // Adjust the route path accordingly
+    navigate('/restaurant-management'); // Adjust the route path accordingly
   };
 const handleLogout = () => {
   // Clear any user session data here
