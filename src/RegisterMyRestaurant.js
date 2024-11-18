@@ -27,10 +27,10 @@ function RegisterMyRestaurant() {
     // Redirect to the page where the menu will be added
     navigate('/restaurant-management'); // Adjust the route path accordingly
   };
-const handleLogout = () => {
-  // Clear any user session data here
-  navigate('/login'); // Redirect to login page
-};
+  const handleLogout = () => {
+    // Clear any user session data here
+    navigate('/'); // Redirect to login page
+  };
   return (
     <div className="register-restaurant-page">
       {/* Header */}
@@ -38,7 +38,7 @@ const handleLogout = () => {
         <img src={logo} alt="QuickBite Logo" className="logo" />
         <div className="user-section">
           <div className="user-id">{userID}</div>
-          <button className="logout-btn">Logout</button>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 
@@ -49,36 +49,38 @@ const handleLogout = () => {
 <div className="content-wrapper">
       {/* Form Steps */}
       <div className="form-container form-container d-flex flex-column align-items-center">
-        {step === 1 && (
-          <div className="step-1  w-100">
-            <h2>Step 1: Basic Info</h2>
-            <form>
-              <div className="form-group">
-                <label htmlFor="restaurantName">Restaurant Name:</label>
-                <input type="text" id="restaurantName" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="restaurantLogo">Restaurant Logo:</label>
-                <input type="file" id="restaurantLogo" accept="image/*" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="category">Category:</label>
-                <select id="category" required>
-                  <option value="Korean">Korean</option>
-                  <option value="Chinese">Chinese</option>
-                  <option value="Japanese">Japanese</option>
-                  <option value="Western">Western</option>
-                  <option value="Cafe">Cafe</option>
-                </select>
-              </div>
-              <div className="button-container">
-                <button type="button" onClick={nextStep} className="next-btn">
-                  Next
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+      {step === 1 && (
+        <div className="step-1 w-100">
+          <h2>Step 1: Basic Info</h2>
+          <form onSubmit={nextStep}>
+            <div className="form-group">
+              <label htmlFor="restaurantName">Restaurant Name:</label>
+              <input type="text" id="restaurantName" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="restaurantLogo">Restaurant Logo:</label>
+              <input type="file" id="restaurantLogo" accept="image/*" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="category">Category:</label>
+              <select id="category" required>
+                <option value="Korean">Korean</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Western">Western</option>
+                <option value="Cafe">Cafe</option>
+              </select>
+            </div>
+            <div className="button-container">
+              {/* Changed button type to submit */}
+              <button type="submit" className="next-btn">
+                Next
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
 
         {step === 2 && (
           <div className="step-2 w-100">

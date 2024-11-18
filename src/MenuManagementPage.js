@@ -77,7 +77,7 @@ function MenuManagement() {
         <img src={logo} alt="QuickBite Logo" className="logo" />
         <div className="user-section d-flex align-items-center">
           <div className="user-id mr-3">{userID}</div>
-          <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>Logout</button>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 

@@ -25,16 +25,23 @@ function RestaurantManagementPage() {
   const goToEditProfile = () => navigate('/edit-restaurant-profile');
 
   return (
-    <div className="container mt-5">
-      {/* Header */}
-      <Header userID={userID} onLogout={handleLogout} /> 
+    
+    <div className="">
+
+    <header className="register-header">
+              <img src={logo} alt="QuickBite Logo" className="logo" />
+              <div className="user-section">
+                <div className="user-id">USER123</div>
+                <button className="logout-btn">Logout</button>
+              </div>
+            </header>
 
       {/* Main Section */}
-      <main className="text-center">
+      <main className="text-center RestoManagement">
         <button className="logo-button " onClick={goToEditProfile}>
           <img src={restaurantlogo} alt="Restaurant Logo" className="rounded-circle" style={{ width: '150px',height: '150px',  }} />
         </button>
-        <h1 className="mb-3">The Red Cafe</h1>
+        <h1 className="">The Red Cafe</h1>
         <div className="row g-3">
           <div className="col-6">
             <button className="btn btn-primary w-50 custom-button" onClick={goToTableManagement}>Table Management</button>

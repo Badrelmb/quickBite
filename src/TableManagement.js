@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './TableManagement.css'; // Import the CSS for styling
 import Header from './Header'; // Import the shared Header component
+import logo from './logo_transparent.png';  // Assuming logo image
 import { QRCodeCanvas } from 'qrcode.react'; // Import QRCodeCanvas from qrcode.react
 
 function TableManagement() {
@@ -20,8 +21,14 @@ function TableManagement() {
   };
 
   return (
-    <div className="table-management-page">
-      <Header userID="USER123" onLogout={() => {}} /> {/* Replace with your logout logic */}
+    <div className="table-management-page TableManagment">
+        <header className="register-header">
+          <img src={logo} alt="QuickBite Logo" className="logo" />
+          <div className="user-section">
+            <div className="user-id">USER123</div>
+            <button className="logout-btn">Logout</button>
+          </div>
+        </header>
 
       <main className="main-content text-center">
         {/* Restaurant Logo and Name */}
