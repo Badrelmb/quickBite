@@ -1,0 +1,44 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+/* Ensure body and html take the full width and height */
+html,
+body {
+ width: 100%;
+ height: 100%;
+}
+
+.orders-page {
+ padding: 20px;
+}
+
+.main-content {
+ margin-top: 50px;
+ text-align: center;
+}
+
+.orders-container {
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+ margin-top: 20px;
+}
+
+.order-card {
+ border: 1px solid #ddd;
+ padding: 15px;
+ border-radius: 10px;
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ text-align: left;
+}
+
+.order-item {
+ margin-bottom: 10px;
+}
+
+.btn-success {
+ margin-top: 10px;
+}

@@ -6,6 +6,7 @@ import RegisterMyRestaurant from './RegisterMyRestaurant';
 import RestaurantManagementPage from './restaurantManagementPage';
 import MenuManagementPage from './MenuManagementPage'; 
 import TableManagement from './TableManagement';
+import Orders from './Orders';
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/register-restaurant" element={<RegisterMyRestaurant />} />
        <Route path="/restaurant-management" element={<RestaurantManagementPage />} />
  <Route path="/menu-management" element={<MenuManagementPage />} /> 
+ <Route path="/orders" element={<Orders />} />
  <Route path="/table-management" element={<TableManagement / >} />
+   
       </Routes>
     </Router>
   );
