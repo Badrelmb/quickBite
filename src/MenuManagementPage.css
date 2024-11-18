@@ -1,0 +1,63 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+/* Ensure body and html take the full width and height */
+html,
+body {
+ width: 100%;
+ height: 100%;
+}
+
+.logo {
+ max-width: 150px;
+ height: auto;
+}
+
+.custom-button {
+ background-color: #c21807;
+ border: none;
+ height: 50px;
+}
+
+.custom-button:hover {
+ background-color: brown;
+}
+
+.custom-footer {
+ width: 100%;
+ background-color: rgb(189, 189, 189);
+ position: relative;
+ margin-top: 50px;
+ font-size: 0.9rem;
+}
+
+footer {
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 120px;
+ padding: 10px 30px;
+ margin-left: -70px;
+ margin-top: auto;
+ background-color: #f9f9f9;
+ box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+ text-align: center;
+ z-index: 10;
+ justify-content: space-between;
+ display: flex;
+ clear: both;
+ display: hide;
+}
+
+.btn-Slide {
+ background-color: #c21807;
+ color: white;
+}
+
+.btn-Slide:hover {
+ background-color: #8a1106;
+ color: white;
+}
