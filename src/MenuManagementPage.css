@@ -61,3 +61,37 @@
     background-color: #8a1106;
     color: white;
    }
+
+   .custom-add-menu-btn {
+    background-color: #c21807;
+    color: white;
+    border-color: #c21807;
+   }
+
+   .custom-add-menu-btn:hover {
+  background-color: #8a1106;
+  border-color: #8a1106;
+   }
+
+   .btn-sm{
+    margin-left: 10px
+   }
+
+      .menu-item .card-img-top {
+       width: 100%;
+       /* Make the image take the full width of the container */
+       height: 150px;
+       /* Set a fixed height for the images */
+       object-fit: cover;
+       /* Crop the image to fit the container while maintaining aspect ratio */
+       border-radius: 8px;
+       /* Optional: Add rounded corners */
+      }
+
+      .menu-item {
+       margin-left: 10px;
+      }
+
+      .menu-form  {
+       margin-bottom: 20px;
+      }

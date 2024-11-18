@@ -64,7 +64,12 @@ function MenuManagement() {
       setMenus(menus.filter((_, i) => i !== index));
     }
   };
-
+  // Handle toggle Sold Out / Available
+  const toggleStatus = (index) => {
+    const updatedMenus = [...menus];
+    updatedMenus[index].status = updatedMenus[index].status === 'Sold Out' ? 'Available' : 'Sold Out';
+    setMenus(updatedMenus);
+  };
   const handleLogout = () => {
     // Clear any user session data here
     navigate('/'); // Redirect to login page
@@ -85,7 +90,7 @@ function MenuManagement() {
         <h1>{restaurantName}</h1>
 
         {/* Add Menu Button */}
-        <button className="btn btn-primary mb-3" onClick={() => setShowForm(true)}>
+        <button className="btn btn-primary mb-3 custom-add-menu-btn" onClick={() => setShowForm(true)}>
           Add Menu
         </button>
 
@@ -154,6 +159,12 @@ function MenuManagement() {
                 <div className="menu-actions">
                   <button className="btn btn-warning btn-sm mr-2" onClick={() => handleEdit(index)}>Edit</button>
                   <button className="btn btn-danger btn-sm" onClick={() => handleDelete(index)}>Delete</button>
+                  <button
+                    className={`btn btn-sm ${menu.status === 'Sold Out' ? 'btn-secondary' : 'btn-success'}`}
+                    onClick={() => toggleStatus(index)}
+                  >
+                    {menu.status === 'Sold Out' ? 'Available' : 'Sold Out'}
+                  </button>
                 </div>
               </div>
             </div>
