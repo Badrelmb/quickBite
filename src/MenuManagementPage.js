@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MenuManagement.css'; // Import your custom CSS
+import './MenuManagementPage.css'; // Import your custom CSS
 import './restaurantManagementPage.css';  // Import the CSS file
 import logo from './logo_transparent.png'; // Assuming logo image
 import { useNavigate } from 'react-router-dom';
