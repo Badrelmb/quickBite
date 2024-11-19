@@ -20,7 +20,7 @@ function RestaurantManagementPage() {
   const goToTableManagement = () => navigate('/table-management');
   const goToMenuManagement = () => navigate('/menu-management');
   const goToOrders = () => navigate('/orders');
-  const goToData = () => navigate('/data');
+  const goToData = () => navigate('/sales-data');
 
   const goToEditProfile = () => navigate('/edit-restaurant-profile');
 
@@ -53,7 +53,7 @@ function RestaurantManagementPage() {
             <button className="btn btn-primary w-50 custom-button" onClick={goToOrders}>Orders</button>
           </div>
           <div className="col-6">
-            <button className="btn btn-primary w-50 custom-button" onClick={goToData}>Data</button>
+            <button className="btn btn-primary w-50 custom-button" onClick={goToData}>Sales Data</button>
           </div>
         </div>
       </main>

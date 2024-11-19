@@ -1,0 +1,55 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+/* Ensure body and html take the full width and height */
+html,
+body {
+ width: 100%;
+ height: 100%;
+}
+
+
+.main-content {
+ text-align: center;
+ margin-top: 70px;
+}
+
+.filter-buttons {
+ margin-bottom: 20px;
+}
+
+.filter-buttons .btn {
+ margin: 0 10px;
+ background-color: #c21807;
+ border-color: #c21807;
+ color: white;
+}
+
+.filter-buttons .btn:hover {
+ background-color: brown;
+}
+
+.filter-buttons .btn.active {
+ background-color: green;
+ border-color: green;
+}
+
+.sales-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 20px;
+}
+
+.sales-table th,
+.sales-table td {
+ border: 1px solid #ddd;
+ padding: 8px;
+ text-align: left;
+}
+
+.sales-table th {
+ background-color: #f4f4f4;
+}

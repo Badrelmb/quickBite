@@ -7,6 +7,7 @@ import RestaurantManagementPage from './restaurantManagementPage';
 import MenuManagementPage from './MenuManagementPage'; 
 import TableManagement from './TableManagement';
 import Orders from './Orders';
+import SalesData from './SalesData';
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
  <Route path="/menu-management" element={<MenuManagementPage />} /> 
  <Route path="/orders" element={<Orders />} />
  <Route path="/table-management" element={<TableManagement / >} />
-   
+    <Route path="/sales-data" element={<SalesData />} /> 
       </Routes>
     </Router>
   );
