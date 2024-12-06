@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SalesData.css'; // Import your custom CSS
 import './restaurantManagementPage.css';
 import logo from './logo_transparent.png'; // Assuming logo image
-import Chart from './Chart';
+import Chart from '.src/Chart';
 import { useNavigate } from 'react-router-dom';
 
 

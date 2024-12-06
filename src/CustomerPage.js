@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CategoriesSidebar from './CategoriesSidebar';
+import CategoriesSidebar from '.src//CategoriesSidebar';
 import MenuItems from './MenuItems';
 import OrderSummary from './OrderSummary';
 import './CustomerPage.css'; 
