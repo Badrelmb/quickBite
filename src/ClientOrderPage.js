@@ -6,6 +6,8 @@ import OrderSummary from './OrderSummary';
 import CategoriesSidebar from './CategoriesSidebar';
 import logo from './logo_transparent.png';
 import './ClientOrderPage.css';
+import { useLocation } from 'react-router-dom';
+
 
 export default function ClientOrderPage() {
   const navigate = useNavigate();
@@ -15,6 +17,11 @@ export default function ClientOrderPage() {
   const [menuData, setMenuData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [categories, setCategories] = useState(['All']);
+  const location = useLocation();
+const searchParams = new URLSearchParams(location.search);
+const restaurantFromURL = searchParams.get('restaurant_id');
+const tableFromURL = searchParams.get('table');
+
 
 
   // 1. Fetch authenticated client ID
@@ -49,25 +56,26 @@ export default function ClientOrderPage() {
 
   // 2. Load menu for the restaurant
   useEffect(() => {
+    if (!restaurantFromURL) return;
+  
+    setRestaurantID(restaurantFromURL);
+  
     const fetchMenu = async () => {
-     const targetRestaurantID = 'b47c38c0-d4a0-4fb2-9bd4-d8696a394ab3'; // TEMP: Replace this with actual logic
-      setRestaurantID(targetRestaurantID);
-
       const { data, error } = await supabase
         .from('menus')
         .select('*')
-        .eq('restaurant_id', targetRestaurantID);
-
+        .eq('restaurant_id', restaurantFromURL);
+  
       if (error) {
         console.error('Menu load error:', error);
       } else {
         setMenuData(data);
-        console.log('🍽️ Menu Data:', data);
       }
     };
-
+  
     fetchMenu();
-  }, []);
+  }, [restaurantFromURL]);
+  
 
   // 3. Add item to order
   const handleAddToOrder = (item) => {
@@ -101,7 +109,7 @@ export default function ClientOrderPage() {
       {
         client_id: clientID,
         restaurant_id: restaurantID,
-        table_number: 1,
+        table_number: Number(tableFromURL),
         menu_items,
         status: 'pending'
       }

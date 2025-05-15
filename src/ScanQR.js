@@ -26,9 +26,14 @@ const cameraId = backCamera ? backCamera.id : devices[0].id;
             qrbox: 250
           },
           (decodedText) => {
-            // Stop scanner and redirect
             scanner.stop().then(() => {
-              navigate(decodedText); // QR should contain full path like /client-order?restaurant_id=...&table=...
+              try {
+                const url = new URL(decodedText);
+                const relativePath = url.pathname + url.search;
+                navigate(relativePath); // This will now go to /redirect?restaurant_id=...&table=...
+              } catch (err) {
+                console.error("Invalid QR code URL");
+              }
             });
           },
           (errorMsg) => {

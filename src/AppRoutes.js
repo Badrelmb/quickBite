@@ -57,6 +57,8 @@ function AppRoutes() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/sales-data" element={<SalesData />} />
             <Route path="/client-order" element={<ClientOrderPage />} />
+            <Route path="/redirect" element={<NavigateToClientOrder />} />
+
 
           </>
         )}
