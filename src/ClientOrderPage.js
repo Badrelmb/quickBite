@@ -31,29 +31,32 @@ const tableFromURL = searchParams.get('table');
         data: { user },
         error
       } = await supabase.auth.getUser();
+  
       if (error || !user) {
-        navigate('/customer-login');
+        // Capture current full path
+        const currentPath = window.location.pathname + window.location.search;
+        navigate(`/customer-login?redirectTo=${encodeURIComponent(currentPath)}`);
         return;
       }
-
+  
       const { data: clientRow, error: clientError } = await supabase
         .from('clients')
         .select('client_id')
         .eq('id', user.id)
         .single();
-
+  
       if (clientError || !clientRow) {
         alert('Client record not found.');
         navigate('/');
         return;
       }
-
+  
       setClientID(clientRow.client_id);
     };
-
+  
     getClientID();
-  }, []);
-
+  }, [navigate]);
+  
   // 2. Load menu for the restaurant
   useEffect(() => {
     if (!restaurantFromURL) return;

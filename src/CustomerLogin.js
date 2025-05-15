@@ -3,12 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import './CustomerLogin.css';
 import logo from './logo_transparent.png';
 import { supabase } from './supabaseClient';
+import { useLocation } from 'react-router-dom';
+
+
 
 
 const CustomerLogin = () => {
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const location = useLocation();
+const redirectTo = new URLSearchParams(location.search).get('redirectTo');
+
 
   const handleLogin = async () => {
   let emailToLoginWith = identifier;
@@ -55,7 +61,7 @@ const CustomerLogin = () => {
     alert('Login failed: ' + loginError.message);
   } else {
     // Navigate to post-login page
-    navigate('/client-dashboard'); // Update with your actual post-login route
+    navigate(redirectTo || '/client-dashboard');
   }
 };
 
