@@ -11,7 +11,13 @@ export default function ScanQR() {
 
     Html5Qrcode.getCameras().then((devices) => {
       if (devices && devices.length) {
-        const cameraId = devices[0].id;
+        // Try to find a back-facing camera
+const backCamera = devices.find(device =>
+  device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('environment')
+);
+
+const cameraId = backCamera ? backCamera.id : devices[0].id;
+
 
         scanner.start(
           cameraId,
