@@ -11,7 +11,10 @@ export default function NavigateToClientOrder() {
     const table = params.get("table");
 
     if (restaurant_id && table) {
-      navigate(`/client-order?restaurant_id=${restaurant_id}&table=${table}`);
+      const target = `/client-order?restaurant_id=${restaurant_id}&table=${table}`;
+      navigate(target, { replace: true });
+    } else {
+      navigate('/', { replace: true });
     }
   }, [location, navigate]);
 
