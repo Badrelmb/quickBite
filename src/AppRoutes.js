@@ -20,6 +20,8 @@ import LoginRedirector from './LoginRedirector';
 import ClientOrderPage from './ClientOrderPage';
 import Redirect from './Redirect';
 import RestaurantInfo from './RestaurantInfo';
+import NavigateToClientOrder from './NavigateToClientOrder';
+
 
 
 function AppRoutes() {
