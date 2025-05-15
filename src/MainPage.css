@@ -208,3 +208,13 @@ width: 100vw;
  font-size: 1rem;
  color: #333;
 }
+
+.alert-message {
+  background-color: #e6f7ff;
+  border: 1px solid #91d5ff;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  color: #0050b3;
+  text-align: center;
+}

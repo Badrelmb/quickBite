@@ -55,11 +55,15 @@ body {
 }
 
 .top3items {
- padding-top: 40px;
+ padding-top: 100px;
  padding-bottom: 20px;
 }
 
 .chart-container {
-
-
+ width: 100%;
+ max-width: 800px;
+ height: 450px;
+ /* important */
+ margin: 40px auto;
+ position: relative;
 }

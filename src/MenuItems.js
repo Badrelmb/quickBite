@@ -12,7 +12,7 @@ function MenuItems({ menuData, selectedCategory, onAddToOrder }) {
           <h3>{item.name}</h3>
             <img src={item.image} alt={item.name} className="menu-item-image" />
           <p>{item.description}</p>
-          <p>${item.price.toFixed(2)}</p>
+          <p>${item.price ? item.price.toFixed(2) : '0.00'}</p>
           <button onClick={() => onAddToOrder(item)}>Add to Order</button>
         </div>
       ))}

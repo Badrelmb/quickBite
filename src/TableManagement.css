@@ -41,3 +41,31 @@ h1 {
 .TableManagment {
     margin-top: 150px;
   }
+.back-button {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  z-index: 1000;
+  background-color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #661111;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

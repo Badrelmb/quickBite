@@ -11,9 +11,7 @@ body {
  height: 100%;
 
 }
-main{
- 
-}
+
 
 .logo {
  max-width: 150px;
@@ -44,20 +42,19 @@ footer{
    /* Ensures it's fixed at the bottom */
    bottom: 0;
    /* Stays at the bottom of the viewport */
-   width: 100%;
+   width: 120% !important;
    /* Takes full width */
    height: 120px;
    padding: 10px 30px;
-  margin-left: -70px;
    margin-top: auto;
    background-color: #f9f9f9;
    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
-   text-align: center;
+   
    /* Centers the footer content */
    z-index: 10;
    /* Keeps it below the header */
    margin-top: auto !important;
-   justify-content: space-between;
+   /* justify-content: space-between; */
    display: flex;
    clear: both;
    display: hide;
@@ -65,4 +62,22 @@ footer{
 
 .RestoManagement {
   margin-top: 150px;
+}
+.restaurant-selection {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.restaurant-logo-btn {
+  border: 3px solid transparent;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.restaurant-logo-btn.selected {
+  border-color: #007bff;
 }

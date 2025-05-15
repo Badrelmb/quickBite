@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
-import './MenuManagementPage.css'; // Import your custom CSS
-import './restaurantManagementPage.css';  // Import the CSS file
-import logo from './logo_transparent.png'; // Assuming logo image
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import './MenuManagementPage.css';
+import './restaurantManagementPage.css';
+import logo from './logo_transparent.png';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 
 function MenuManagement() {
-  const [menus, setMenus] = useState([]); // Array to store menu items
-  const [showForm, setShowForm] = useState(false); // To toggle form visibility
-  const [currentMenuIndex, setCurrentMenuIndex] = useState(null); // Index for editing menu
+  const navigate = useNavigate();
+  const location = useLocation();
+  const selectedRestaurant = location.state?.selectedRestaurant;
+
+  const [menus, setMenus] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [currentMenuId, setCurrentMenuId] = useState(null);
   const [menuData, setMenuData] = useState({
     name: '',
     image: null,
@@ -16,11 +21,27 @@ function MenuManagement() {
     description: ''
   });
 
-  const navigate = useNavigate();
-  const restaurantName = "Your Restaurant Name";
-  const userID = "USER123"; // Example user ID
+  useEffect(() => {
+    if (!selectedRestaurant) {
+      navigate('/restaurant-management');
+      return;
+    }
+    fetchMenus();
+  }, [selectedRestaurant]);
 
-  // Handle input changes
+  const fetchMenus = async () => {
+    const { data, error } = await supabase
+      .from('menus')
+      .select('*')
+      .eq('restaurant_id', selectedRestaurant.id);
+
+    if (error) {
+      console.error('Error fetching menus:', error);
+    } else {
+      setMenus(data);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setMenuData({
@@ -29,76 +50,120 @@ function MenuManagement() {
     });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (currentMenuIndex !== null) {
-      // Update existing menu
-      const updatedMenus = [...menus];
-      updatedMenus[currentMenuIndex] = menuData;
-      setMenus(updatedMenus);
-    } else {
-      // Add new menu
-      setMenus([...menus, menuData]);
+
+    let imageUrl = 'https://via.placeholder.com/400x300?text=Menu+Item';
+
+    if (menuData.image) {
+      const fileExt = menuData.image.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const { error: uploadError } = await supabase.storage
+        .from('menu-images')
+        .upload(fileName, menuData.image);
+
+      if (uploadError) {
+        alert('Image upload failed');
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from('menu-images')
+        .getPublicUrl(fileName);
+      imageUrl = urlData.publicUrl;
     }
+
+    if (currentMenuId) {
+      // Update
+      const { error } = await supabase
+        .from('menus')
+        .update({
+          name: menuData.name,
+          category: menuData.category,
+          ingredients: menuData.ingredients,
+          description: menuData.description,
+          ...(imageUrl && { image_url: imageUrl })
+        })
+        .eq('id', currentMenuId);
+      if (error) alert('Update failed');
+    } else {
+      // Insert
+      const { error } = await supabase
+        .from('menus')
+        .insert([{
+          restaurant_id: selectedRestaurant.id,
+          name: menuData.name,
+          image_url: imageUrl,
+          category: menuData.category,
+          ingredients: menuData.ingredients,
+          description: menuData.description
+        }]);
+      if (error) alert('Insert failed');
+    }
+
     resetForm();
+    fetchMenus();
   };
 
-  // Reset form and hide
   const resetForm = () => {
     setMenuData({ name: '', image: null, category: 'Salads', ingredients: '', description: '' });
-    setCurrentMenuIndex(null);
+    setCurrentMenuId(null);
     setShowForm(false);
   };
 
-  // Handle edit menu
-  const handleEdit = (index) => {
-    setCurrentMenuIndex(index);
-    setMenuData(menus[index]);
+  const handleEdit = (menu) => {
+    setCurrentMenuId(menu.id);
+    setMenuData({
+      name: menu.name,
+      image: null, // No need to refetch image
+      category: menu.category,
+      ingredients: menu.ingredients,
+      description: menu.description
+    });
     setShowForm(true);
   };
 
-  // Handle delete menu
-  const handleDelete = (index) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this menu?')) {
-      setMenus(menus.filter((_, i) => i !== index));
+      await supabase.from('menus').delete().eq('id', id);
+      fetchMenus();
     }
   };
-  // Handle toggle Sold Out / Available
-  const toggleStatus = (index) => {
-    const updatedMenus = [...menus];
-    updatedMenus[index].status = updatedMenus[index].status === 'Sold Out' ? 'Available' : 'Sold Out';
-    setMenus(updatedMenus);
+
+  const toggleStatus = async (menu) => {
+    const newStatus = menu.status === 'Sold Out' ? 'Available' : 'Sold Out';
+    await supabase.from('menus').update({ status: newStatus }).eq('id', menu.id);
+    fetchMenus();
   };
+
   const handleLogout = () => {
-    // Clear any user session data here
-    navigate('/'); // Redirect to login page
+    navigate('/');
   };
 
   return (
     <div className="menu-management-page">
-      {/* Header */}
       <header className="register-header d-flex justify-content-between align-items-center py-3 px-4">
         <img src={logo} alt="QuickBite Logo" className="logo" />
         <div className="user-section d-flex align-items-center">
-          <div className="user-id mr-3">{userID}</div>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 
       <main className="main-content text-center">
-        <h1>{restaurantName}</h1>
+        <div className="back-button" onClick={() => navigate('/restaurant-management')}>
+          ← Back
+        </div>
 
-        {/* Add Menu Button */}
+        <h1>{selectedRestaurant?.name}</h1>
+
         <button className="btn btn-primary mb-3 custom-add-menu-btn" onClick={() => setShowForm(true)}>
           Add Menu
         </button>
 
-        {/* Slide-in Form for Menu */}
         {showForm && (
           <div className="menu-form slide-in">
             <div className="form-header d-flex justify-content-between align-items-center mb-4">
-              <h2>Register Menu Item</h2>
+              <h2>{currentMenuId ? 'Edit Menu Item' : 'Register Menu Item'}</h2>
               <button className="close-btn" onClick={resetForm}>&times;</button>
             </div>
             <form onSubmit={handleSubmit}>
@@ -148,20 +213,19 @@ function MenuManagement() {
           </div>
         )}
 
-        {/* Display Menu Items */}
         <div className="menu-items d-flex flex-wrap justify-content-center">
           {menus.map((menu, index) => (
-            <div key={index} className="menu-item card p-3">
-              {menu.image && <img src={URL.createObjectURL(menu.image)} alt={menu.name} className="card-img-top" />}
+            <div key={menu.id} className="menu-item card p-3">
+              {menu.image_url && <img src={menu.image_url} alt={menu.name} className="card-img-top" />}
               <div className="card-body text-center">
                 <h5 className="card-title">{menu.name}</h5>
                 <p className="card-text">{menu.category}</p>
                 <div className="menu-actions">
-                  <button className="btn btn-warning btn-sm mr-2" onClick={() => handleEdit(index)}>Edit</button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(index)}>Delete</button>
+                  <button className="btn btn-warning btn-sm mr-2" onClick={() => handleEdit(menu)}>Edit</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(menu.id)}>Delete</button>
                   <button
                     className={`btn btn-sm ${menu.status === 'Sold Out' ? 'btn-secondary' : 'btn-success'}`}
-                    onClick={() => toggleStatus(index)}
+                    onClick={() => toggleStatus(menu)}
                   >
                     {menu.status === 'Sold Out' ? 'Available' : 'Sold Out'}
                   </button>

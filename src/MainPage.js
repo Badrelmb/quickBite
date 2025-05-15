@@ -3,17 +3,20 @@ import './MainPage.css'; // Custom CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
 import 'animate.css/animate.min.css'; // Animate.css for sliding effect
 import { Modal } from 'react-bootstrap'; // Bootstrap modal component
-import logo from './logo_transparent.png'; // Your logo
+import logo from './logo_transparent.png';
+import { supabase } from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 
 function MainPage() {
   const [showModal, setShowModal] = useState(false); // Modal visibility
   const [formType, setFormType] = useState('login'); // Track form type (login or register)
-
+const [alertMessage, setAlertMessage] = useState('');
   const openForm = (type) => {
     setFormType(type); // Set form type to login or register
     setShowModal(true); // Show modal
+    
+
   };
 
   const closeForm = () => {
@@ -21,10 +24,82 @@ function MainPage() {
   };
 const navigate = useNavigate();
 
-const handleLoginSubmit = (e) => {
-  e.preventDefault();  // Prevent the form from actually submitting
-  navigate('/post-login');  // Navigate to the PostLoginPage route
+const handleLoginSubmit = async (e) => {
+  e.preventDefault();
+
+  const email = e.target.email.value.trim(); // 💡 from input name="username"
+  const password = e.target.password.value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert('Login failed: ' + error.message);
+  } else {
+    navigate('/login-redirect'); // 🎯 Redirect after successful login
+  }
 };
+
+
+
+const handleRegisterSubmit = async (e) => {
+  e.preventDefault();
+  const ownerId = e.target.restaurant.value.trim();
+  const email = e.target.email.value.trim();
+  const password = e.target.password.value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert('Registration failed: ' + error.message);
+    return;
+  }
+
+  const userId = data.user.id;
+
+  const { error: insertError } = await supabase.from('restaurant_owners').insert([
+    {
+      user_id: userId,
+      owner_id: ownerId,
+      email: email,
+    },
+  ]);
+
+  if (insertError) {
+    alert('Account created but failed to save details: ' + insertError.message);
+  } else {
+   
+    setFormType('login'); // Switch to login form
+  }
+};
+
+// const handleResendEmail = async (e) => {
+//   e.preventDefault();
+//   const email = document.getElementById('email').value.trim();
+
+//   if (!email) {
+//     alert('Please enter your email above first.');
+//     return;
+//   }
+
+//   const { error } = await supabase.auth.resend({
+//     type: 'signup',
+//     email: email,
+//   });
+
+//   if (error) {
+//     alert('Error resending confirmation email: ' + error.message);
+//   } else {
+//     alert('Confirmation email has been resent!');
+//   }
+// };
+
+
   return (
     <div className="main-page">
       <header className="main-header">
@@ -67,10 +142,12 @@ const handleLoginSubmit = (e) => {
         </Modal.Header>
         <Modal.Body>
           {formType === 'login' ? (
+            <>
+            {alertMessage && <div className="alert-message">{alertMessage}</div>}
             <form onSubmit={handleLoginSubmit}>
               <div className="form-group">
-                <label htmlFor="username">User ID:</label>
-                <input type="text" id="username" name="username" required />
+                <label htmlFor="username">Email :</label>
+              <input type="email" id="email" name="email" required />
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password:</label>
@@ -81,8 +158,9 @@ const handleLoginSubmit = (e) => {
               </div>
               <button type="submit" className="submit-btn">Login</button>
             </form>
+            </>
           ) : (
-            <form>
+            <form onSubmit={handleRegisterSubmit}>
               <div className="form-group">
                 <label htmlFor="restaurant">User ID:</label>
                 <input type="text" id="restaurant" name="restaurant" required />
@@ -95,7 +173,8 @@ const handleLoginSubmit = (e) => {
                 <label htmlFor="password">Password:</label>
                 <input type="password" id="password" name="password" required />
               </div>
-              <button type="submit" className="submit-btn">Register</button>
+             <button type="submit" className="submit-btn">Register</button>
+
             </form>
           )}
         </Modal.Body>

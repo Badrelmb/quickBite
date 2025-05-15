@@ -1,0 +1,169 @@
+/* ───── Header ───── */
+.client-header {
+ background-color: white;
+ padding: 44px 32px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-bottom: 1px solid #ddd;
+}
+
+.header-inner {
+ width: 100%;
+ max-width: 1200px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+}
+
+.logo {
+ height: 150px;
+}
+
+.user-section {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+}
+
+.user-id {
+ font-weight: bold;
+ color: #333;
+}
+
+.logout-btn {
+ background-color: #ff4d4f;
+ color: white;
+ border: none;
+ padding: 6px 12px;
+ border-radius: 6px;
+ cursor: pointer;
+}
+
+.logout-btn:hover {
+ background-color: #d9363e;
+}
+
+/* ───── Layout Wrapper ───── */
+.order-layout {
+ display: flex;
+ height: calc(100vh - 80px);
+ /* minus header height */
+}
+
+/* ───── Sidebar ───── */
+.categories-sidebar {
+ list-style: none;
+ margin: 0;
+ padding: 20px 0;
+ background-color: #d9363e;
+ width: 200px;
+ color: white;
+ font-weight: bold;
+}
+
+.categories-sidebar li {
+ padding: 14px 20px;
+ cursor: pointer;
+ transition: background 0.2s;
+}
+
+.categories-sidebar li.active,
+.categories-sidebar li:hover {
+ background-color: #b52d33;
+}
+
+/* ───── Menu Items ───── */
+.menu-items-container {
+ flex: 1;
+ padding: 20px 30px;
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+ gap: 20px;
+ overflow-y: auto;
+}
+
+.menu-item {
+ background-color: white;
+ border: 1px solid #ddd;
+ border-radius: 12px;
+ padding: 16px;
+ text-align: center;
+ box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.menu-item-image {
+ width: 100%;
+ height: 120px;
+ object-fit: cover;
+ border-radius: 8px;
+}
+
+.menu-item h3 {
+ margin: 12px 0 6px;
+ color: #d9363e;
+}
+
+.menu-item p {
+ margin: 4px 0;
+}
+
+.menu-item button {
+ margin-top: 10px;
+ background-color: #d9363e;
+ color: white;
+ border: none;
+ padding: 8px 12px;
+ border-radius: 6px;
+ cursor: pointer;
+}
+
+.menu-item button:hover {
+ background-color: #b52d33;
+}
+
+/* ───── Order Summary ───── */
+.order-summary-container {
+ width: 250px;
+ padding: 20px;
+ border-left: 1px solid #eee;
+ background-color: white;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+}
+
+.order-summary-container h3 {
+ margin-bottom: 12px;
+}
+
+.order-summary-container ul {
+ list-style: none;
+ padding: 0;
+ margin: 0 0 12px;
+}
+
+.order-summary-container li {
+ margin-bottom: 8px;
+ font-size: 14px;
+}
+
+.order-summary-container h4 {
+ margin: 12px 0;
+ font-size: 16px;
+ font-weight: bold;
+}
+
+.order-summary-container button {
+ background-color: #d9363e;
+ color: white;
+ border: none;
+ padding: 12px;
+ border-radius: 6px;
+ font-size: 16px;
+ cursor: pointer;
+}
+
+.order-summary-container button:hover {
+ background-color: #b52d33;
+}

@@ -1,44 +1,90 @@
-import React, { useState } from 'react';
-import './SalesData.css'; // Import your custom CSS
+import React, { useEffect, useState, useRef } from 'react';
+import './SalesData.css';
 import './restaurantManagementPage.css';
-import logo from './logo_transparent.png'; // Assuming logo image
-import Chart from '.src/Chart';
+import logo from './logo_transparent.png';
+import Chart from './Chart';
 import { useNavigate } from 'react-router-dom';
-
+import { supabase } from './supabaseClient';
 
 function SalesData() {
-  const [filter, setFilter] = useState('daily'); // State to track the selected filter
-const navigate = useNavigate();
-const userID = "USER123";
-  // Sample sales data with random dates and menu items
-  const salesData = [
-  { menuName: 'Burger', quantity: 5, price: 8.99, date: new Date(2024, 10, 15) },
-  { menuName: 'Pasta', quantity: 2, price: 12.99, date: new Date(2024, 10, 15) },
-  { menuName: 'Salad', quantity: 3, price: 6.99, date: new Date(2024, 10, 14) },
-  { menuName: 'Pizza', quantity: 8, price: 14.99, date: new Date(2024, 10, 13) },
-  { menuName: 'Soup', quantity: 4, price: 5.99, date: new Date(2024, 9, 10) },
-  { menuName: 'Steak', quantity: 6, price: 19.99, date: new Date(2024, 9, 5) },
-  { menuName: 'Fish Tacos', quantity: 2, price: 9.99, date: new Date(2024, 8, 20) },
-  { menuName: 'Smoothie', quantity: 7, price: 4.99, date: new Date(2024, 8, 15) },
-  { menuName: 'Cake', quantity: 10, price: 3.99, date: new Date(2024, 7, 10) },
-  { menuName: 'Coffee', quantity: 12, price: 2.99, date: new Date(2024, 6, 30) },
-  { menuName: 'Ice Cream', quantity: 9, price: 3.49, date: new Date(2024, 5, 25) },
-  { menuName: 'Pancakes', quantity: 4, price: 7.99, date: new Date(2024, 4, 15) },
-  { menuName: 'Sushi', quantity: 3, price: 14.99, date: new Date(2024, 3, 5) },
-  { menuName: 'BBQ Ribs', quantity: 6, price: 16.99, date: new Date(2024, 2, 1) },
-  { menuName: 'Dumplings', quantity: 8, price: 6.99, date: new Date(2024, 1, 20) },
-  { menuName: 'Sandwich', quantity: 2, price: 5.49, date: new Date(2023, 11, 15) },
-  { menuName: 'Fried Rice', quantity: 5, price: 8.99, date: new Date(2023, 10, 10) },
-  { menuName: 'Hot Dog', quantity: 7, price: 3.99, date: new Date(2023, 8, 5) },
-  { menuName: 'Brownie', quantity: 4, price: 2.99, date: new Date(2023, 6, 25) },
-  { menuName: 'Tea', quantity: 9, price: 1.99, date: new Date(2023, 4, 10) },
-];
+  const [filter, setFilter] = useState('daily');
+  const [ownerID, setOwnerID] = useState('');
+  const [salesData, setSalesData] = useState([]);
+  const navigate = useNavigate();
 
-  // Filter sales data based on the selected category
-  const filteredSales = salesData.filter((sale) => {
-    const today = new Date();
+  const previousRestaurantIDRef = useRef(null);
+
+  useEffect(() => {
+    const fetchSales = async () => {
+      // Step 1: Get logged-in user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate('/');
+        return;
+      }
+
+      // Step 2: Get owner_id
+      const { data: ownerRow, error: ownerError } = await supabase
+        .from('restaurant_owners')
+        .select('owner_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (ownerError || !ownerRow) {
+        alert('Owner record not found');
+        navigate('/');
+        return;
+      }
+
+      setOwnerID(ownerRow.owner_id);
+
+      // Step 3: Get restaurant(s)
+      const { data: restaurants, error: restError } = await supabase
+        .from('restaurants')
+        .select('id')
+        .eq('owner_id', ownerRow.owner_id);
+
+      if (restError || !restaurants || restaurants.length === 0) {
+        alert('No restaurant found for this owner.');
+        return;
+      }
+
+      const restaurantIDs = restaurants.map(r => r.id);
+      previousRestaurantIDRef.current = restaurantIDs;
+
+      // Step 4: Fetch served orders
+      const { data: orders, error: orderError } = await supabase
+        .from('orders')
+        .select('*')
+        .in('restaurant_id', restaurantIDs)
+        .eq('status', 'served');
+
+      if (orderError) {
+        console.error('Failed to fetch orders:', orderError);
+        return;
+      }
+
+      // Step 5: Flatten orders → [{ menuName, quantity, price, date }]
+      const flattened = orders.flatMap(order =>
+        order.menu_items.map(item => ({
+          menuName: item.name,
+          quantity: item.quantity,
+          price: item.price || 0,
+          date: new Date(order.ordered_at)
+        }))
+      );
+
+      setSalesData(flattened);
+    };
+
+    fetchSales();
+  }, [navigate]);
+
+  // ───── Filter logic ─────
+  const today = new Date();
+
+  const filteredSales = salesData.filter(sale => {
     const saleDate = sale.date;
-
     switch (filter) {
       case 'daily':
         return saleDate.toDateString() === today.toDateString();
@@ -55,32 +101,42 @@ const userID = "USER123";
     }
   });
 
-   // Calculate total price for the filtered sales
-  const totalSalesPrice = filteredSales.reduce((total, sale) => {
-    return total + sale.quantity * sale.price;
-  }, 0);
+  const totalSalesPrice = filteredSales.reduce((total, sale) => total + sale.quantity * sale.price, 0);
 
-const topItems = [...filteredSales].sort((a, b) => b.quantity - a.quantity).slice(0, 3);
+  const topItems = [...filteredSales].reduce((acc, sale) => {
+    const existing = acc.find(item => item.menuName === sale.menuName);
+    if (existing) {
+      existing.quantity += sale.quantity;
+      existing.total += sale.quantity * sale.price;
+    } else {
+      acc.push({
+        menuName: sale.menuName,
+        quantity: sale.quantity,
+        total: sale.quantity * sale.price
+      });
+    }
+    return acc;
+  }, []).sort((a, b) => b.quantity - a.quantity).slice(0, 3);
 
   const chartData = {
-    labels: topItems.map((item) => item.menuName),
+    labels: topItems.map(item => item.menuName),
     datasets: [
       {
         label: 'Quantity Sold',
-        data: topItems.map((item) => item.quantity),
+        data: topItems.map(item => item.quantity),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
       {
         label: 'Amount Sold ($)',
-        data: topItems.map((item) => (item.quantity * item.price).toFixed(2)),
+        data: topItems.map(item => item.total.toFixed(2)),
         backgroundColor: 'rgba(153, 102, 255, 0.6)',
       },
     ],
   };
 
   const chartOptions = {
-    responsive: false,
-    aspectratio: 3,
+    responsive: true,
+   maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
@@ -88,52 +144,38 @@ const topItems = [...filteredSales].sort((a, b) => b.quantity - a.quantity).slic
     },
   };
 
-
-const handleLogout = () => {
-    // Clear any user session data here
-    navigate('/'); // Redirect to login page
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/');
   };
+
   return (
     <div className="sales-data-page">
-      {/* <Header userID="USER123" onLogout={() => {}} /> Replace with your logout logic */}
-        <header className="register-header d-flex justify-content-between align-items-center py-3 px-4">
+      <header className="register-header d-flex justify-content-between align-items-center py-3 px-4">
         <img src={logo} alt="QuickBite Logo" className="logo" />
         <div className="user-section d-flex align-items-center">
-          <div className="user-id mr-3">{userID}</div>
+          <div className="user-id mr-3">{ownerID || 'Loading...'}</div>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
+
       <main className="main-content">
         <h1>Sales Data</h1>
         <div className="filter-buttons">
+          {['daily', 'weekly', 'monthly', 'yearly'].map(option => (
             <button
-            className={`btn ${filter === 'daily' ? 'active' : ''}`}
-            onClick={() => setFilter('daily')}
-          >
-            Daily
-          </button>
-          <button
-            className={`btn ${filter === 'weekly' ? 'active' : ''}`}
-            onClick={() => setFilter('weekly')}
-          >
-            Weekly
-          </button>
-          <button
-            className={`btn ${filter === 'monthly' ? 'active' : ''}`}
-            onClick={() => setFilter('monthly')}
-          >
-            Monthly
-          </button>
-          <button
-            className={`btn ${filter === 'yearly' ? 'active' : ''}`}
-            onClick={() => setFilter('yearly')}
-          >
-            Yearly
-          </button>
+              key={option}
+              className={`btn ${filter === option ? 'active' : ''}`}
+              onClick={() => setFilter(option)}
+            >
+              {option[0].toUpperCase() + option.slice(1)}
+            </button>
+          ))}
         </div>
-         <h2 className="total-price">TOTAL PRICE: ${totalSalesPrice.toFixed(2)}</h2>
 
-         <table className="sales-table">
+        <h2 className="total-price">TOTAL PRICE: ${totalSalesPrice.toFixed(2)}</h2>
+
+        <table className="sales-table">
           <thead>
             <tr>
               <th>Menu Name</th>
@@ -155,7 +197,8 @@ const handleLogout = () => {
             ))}
           </tbody>
         </table>
-        <h2 className='top3items'>Top 3 Selling Items</h2>
+
+        <h2 className="top3items">Top 3 Selling Items</h2>
         <div className="chart-container">
           <Chart data={chartData} options={chartOptions} />
         </div>

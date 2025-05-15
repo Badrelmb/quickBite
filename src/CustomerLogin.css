@@ -1,0 +1,74 @@
+.customer-login-container {
+ width: 100%;
+ max-width: 400px;
+ margin: 0px auto;
+ text-align: center;
+}
+
+.customer-login-container input {
+ width: 100%;
+ padding: 12px;
+ margin: 10px 0;
+ font-size: 16px;
+}
+
+.button-group {
+ display: flex;
+ justify-content: space-between;
+ margin-top: 20px;
+}
+
+.login-btn,
+.signup-btn {
+ flex: 1;
+ padding: 12px;
+ margin: 0 5px;
+ font-size: 20px;
+ border: none;
+ cursor: pointer;
+ border-radius: 8px;
+}
+
+.login-btn {
+ background-color: #c21807;
+ color: white;
+}
+
+.signup-btn {
+ background-color: #c21807;
+ color: white;
+}
+
+.forgot-link {
+ margin-top: 15px;
+ color: #777;
+ text-decoration: underline;
+ cursor: pointer;
+}
+
+.form-box {
+ border: 2px solid #c21807;
+ border-radius: 12px;
+ padding: 30px;
+ background-color: white;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.otp-section {
+ margin-top: 1rem;
+ display: flex;
+ gap: 10px;
+}
+
+.otp-section input {
+ padding: 8px;
+ border: 1px solid #ccc;
+}
+
+.confirm-otp-button {
+ background-color: #b31005;
+ color: white;
+ border: none;
+ padding: 8px 12px;
+ cursor: pointer;
+}
