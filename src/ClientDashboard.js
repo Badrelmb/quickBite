@@ -248,10 +248,11 @@ useEffect(() => {
   console.log('📦 All restaurants loaded:', allRestaurants);
 }, [allRestaurants, selectedTags, price, selectedCategory]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate('/login');
-  };
+const handleLogout = async () => {
+  await supabase.auth.signOut();
+  setShowCover(true); 
+  navigate('/customer-login');
+};
 const handleCategorySelect = async (category) => {
   setSelectedCategory(category);
   console.log('Selected category:', category);

@@ -136,9 +136,12 @@ function MenuManagement() {
     fetchMenus();
   };
 
-  const handleLogout = () => {
-    navigate('/');
+  const handleLogout = async () => {
+    await supabase.auth.signOut();     
+    setShowCover(true);                
+    navigate('/');                     
   };
+  
 
   return (
     <div className="menu-management-page">
