@@ -115,7 +115,6 @@ previousCountRef.current = orderData.length;
                   <div key={index} className="order-item">
                     <p><strong>Menu:</strong> {item.name}</p>
                     <p><strong>Quantity:</strong> {item.quantity}</p>
-                    <p><strong>Special Requests:</strong> {item.special_requests || '—'}</p>
                   </div>
                 ))}
                 <button className="btn btn-success" onClick={() => handleServed(order.id)}>
