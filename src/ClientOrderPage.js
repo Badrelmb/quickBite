@@ -144,8 +144,8 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
     
 
     if (error) {
-      console.error('Order failed:', error);
-      alert('Failed to place order.');
+      console.error('❌ Order insert failed:', error.message || error.details || error);
+      alert(`Failed to place order: ${error.message || 'Unknown error'}`);
     } else {
       alert('Order placed successfully!');
       setOrder([]);
