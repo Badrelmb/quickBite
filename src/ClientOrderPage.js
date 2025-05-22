@@ -28,11 +28,12 @@ const tableFromURL = searchParams.get('table');
   useEffect(() => {
     const getClientID = async () => {
       const {
-        data: { user },
-        error
-      } = await supabase.auth.getUser();
+        data: { session },
+      } = await supabase.auth.getSession();
   
-      if (error || !user) {
+      const user = session?.user;
+  
+      if (!user) {
         // Capture current full path
         const currentPath = window.location.pathname + window.location.search;
         navigate(`/customer-login?redirectTo=${encodeURIComponent(currentPath)}`);
@@ -56,6 +57,7 @@ const tableFromURL = searchParams.get('table');
   
     getClientID();
   }, [navigate]);
+  
   
   // 2. Load menu for the restaurant
   useEffect(() => {
