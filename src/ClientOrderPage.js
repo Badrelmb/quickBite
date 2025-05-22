@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 export default function ClientOrderPage() {
   
   const navigate = useNavigate();
+  const [authUserID, setAuthUserID] = useState('');
   const [clientID, setClientID] = useState('');
   const [restaurantID, setRestaurantID] = useState(''); // you’ll pass this via prop or URL later
   const [order, setOrder] = useState([]);
@@ -41,6 +42,10 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
         return;
       }
   
+      // ✅ Save the Supabase Auth UUID for inserting into orders
+      setAuthUserID(user.id);
+  
+      // 🔍 Get the user’s custom client_id (e.g., "test1") for display
       const { data: clientRow, error: clientError } = await supabase
         .from('clients')
         .select('client_id')
@@ -136,6 +141,7 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
         status: 'pending'
       }
     ]);
+    
 
     if (error) {
       console.error('Order failed:', error);
