@@ -22,50 +22,46 @@ import Redirect from './Redirect';
 import RestaurantInfo from './RestaurantInfo';
 import NavigateToClientOrder from './NavigateToClientOrder';
 
-
-
 function AppRoutes() {
   const [showCover, setShowCover] = useState(true);
-  const navigate = useNavigate(); // Now safe to use!
+  const navigate = useNavigate();
 
   const handleManagerSelect = () => {
     setShowCover(false);
-    navigate('/'); // navigate to MainPage
+    navigate('/'); // will now show <MainPage />
   };
 
   return (
-    <>
-      {showCover && <CoverPage onManagerSelect={handleManagerSelect} />}
+    <Routes>
+      {/* Special case: root path */}
+      <Route
+        path="/"
+        element={showCover ? <CoverPage onManagerSelect={handleManagerSelect} /> : <MainPage />}
+      />
 
-      <Routes>
-        <Route path="/customer-login" element={<CustomerLogin />} />
-        <Route path="/CustomerPage" element={<CustomerPage />} />
-        <Route path="/client-dashboard" element={<ClientDashboard />} />
-        <Route path="/customer-signup" element={<CustomerSignUp />} />
-        <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
-        <Route path="/scan-qr" element={<ScanQR />} />
-         <Route path="/login-redirect" element={<LoginRedirector />} />
-         <Route path="/redirect" element={<Redirect />} />
-         <Route path="/restaurant/:id" element={<RestaurantInfo />} />
+      {/* Client/customer flow */}
+      <Route path="/customer-login" element={<CustomerLogin setShowCover={setShowCover} />} />
+      <Route path="/customer-signup" element={<CustomerSignUp />} />
+      <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
+      <Route path="/client-dashboard" element={<ClientDashboard />} />
+      <Route path="/client-order" element={<ClientOrderPage />} />
+      <Route path="/scan-qr" element={<ScanQR />} />
+      <Route path="/CustomerPage" element={<CustomerPage />} />
+      <Route path="/restaurant/:id" element={<RestaurantInfo />} />
 
-        {!showCover && (
-          <>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/post-login" element={<PostLoginPage />} />
-            <Route path="/register-restaurant" element={<RegisterMyRestaurant />} />
-            <Route path="/restaurant-management" element={<RestaurantManagementPage />} />
-            <Route path="/menu-management" element={<MenuManagementPage />} />
-            <Route path="/table-management" element={<TableManagement />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/sales-data" element={<SalesData />} />
-            <Route path="/client-order" element={<ClientOrderPage />} />
-            <Route path="/redirect" element={<Redirect />} />
+      {/* Auth helpers */}
+      <Route path="/redirect" element={<Redirect />} />
+      <Route path="/login-redirect" element={<LoginRedirector />} />
 
-
-          </>
-        )}
-      </Routes>
-    </>
+      {/* Manager flow */}
+      <Route path="/post-login" element={<PostLoginPage />} />
+      <Route path="/register-restaurant" element={<RegisterMyRestaurant />} />
+      <Route path="/restaurant-management" element={<RestaurantManagementPage />} />
+      <Route path="/menu-management" element={<MenuManagementPage />} />
+      <Route path="/table-management" element={<TableManagement />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/sales-data" element={<SalesData />} />
+    </Routes>
   );
 }
 
