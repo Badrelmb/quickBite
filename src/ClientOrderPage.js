@@ -125,7 +125,7 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
     }));
     
     console.log('🧾 Attempting to place order:', {
-      client_id: clientID,
+      client_id: authUserID, 
       restaurant_id: restaurantID,
       table_number: Number(tableFromURL),
       menu_items,
