@@ -1,6 +1,6 @@
 import React from 'react';
 
-function OrderSummary({ order }) {
+function OrderSummary({ order, onPlaceOrder }) {
   const totalPrice = order.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
@@ -12,13 +12,13 @@ function OrderSummary({ order }) {
         <ul>
           {order.map((item) => (
             <li key={item.id}>
-              {item.name} x {item.quantity} - ${item.price.toFixed(2)}
+              {item.name} x {item.quantity} - ₩{item.price.toLocaleString()}
             </li>
           ))}
         </ul>
       )}
-      <h4>Total: ${totalPrice.toFixed(2)}</h4>
-      <button>Place Order</button>
+      <h4>Total: ₩{totalPrice.toLocaleString()}</h4>
+      <button onClick={onPlaceOrder}>Place Order</button>
     </div>
   );
 }
