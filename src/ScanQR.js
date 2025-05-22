@@ -30,14 +30,14 @@ const cameraId = backCamera ? backCamera.id : devices[0].id;
               try {
                 const url = new URL(decodedText);
                 const relativePath = url.pathname + url.search;
-                navigate(relativePath); // This will now go to /redirect?restaurant_id=...&table=...
+                window.location.href = relativePath;
               } catch (err) {
                 console.error("Invalid QR code URL");
               }
             });
           },
           (errorMsg) => {
-            // console.warn("QR error", errorMsg);
+            console.warn("QR error", errorMsg);
           }
         );
       }
