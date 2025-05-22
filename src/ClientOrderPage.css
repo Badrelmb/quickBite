@@ -167,3 +167,23 @@
 .order-summary-container button:hover {
  background-color: #b52d33;
 }
+
+@media screen and (max-width: 768px) {
+ .order-layout {
+  display: block;
+  /* Stack components vertically */
+ }
+
+ .categories-sidebar {
+  display: none;
+  /* Hide sidebar on mobile */
+ }
+
+ .order-summary-container {
+  margin-top: 20px;
+ }
+
+ .menu-items-container {
+  width: 100%;
+ }
+}
