@@ -523,53 +523,6 @@ const handleSearch = async () => {
 <div className="all-restaurants-section">
   <div className="all-header">
     <h2>🍽️ All Restaurants</h2>
-
-    <div className="filters">
-      {/* Filter Dropdown Only */}
-      <div className="dropdown-wrapper">
-        <div className="dropdown">
-          <button className="filter-btn" onClick={() => setFilterOpen(!filterOpen)}>
-            Filters ⚙️
-          </button>
-          {filterOpen && (
-            <div className="filter-panel">
-              <div className="filter-tags">
-                {['Vegan food', 'Halal food', 'Alcohol Available', 'GOLD Ribbon'].map((tag) => (
-                  <button
-                    key={tag}
-                    className={`tag-btn ${selectedTags.includes(tag) ? 'active' : ''}`}
-                    onClick={() =>
-                      setSelectedTags((prev) =>
-                        prev.includes(tag)
-                          ? prev.filter((t) => t !== tag)
-                          : [...prev, tag]
-                      )
-                    }
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-
-              <div className="price-slider">
-                <label>Price (KRW)</label>
-                <input
-                  type="range"
-                  min="5000"
-                  max="20000"
-                  step="1000"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <div className="price-value">{price}+</div>
-              </div>
-
-              <button className="apply-btn" onClick={() => setFilterOpen(false)}>Apply</button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
   </div>
 
   <div className="restaurant-grid">
