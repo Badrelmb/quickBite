@@ -116,9 +116,17 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
       menu_id: item.id,
       name: item.name,
       quantity: item.quantity,
-      special_requests: item.special_requests || ''
+      price: item.price
     }));
-
+    
+    console.log('🧾 Attempting to place order:', {
+      client_id: clientID,
+      restaurant_id: restaurantID,
+      table_number: Number(tableFromURL),
+      menu_items,
+      status: 'pending'
+    });
+    
     const { error } = await supabase.from('orders').insert([
       {
         client_id: clientID,
