@@ -85,6 +85,13 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
 
   // 3. Add item to order
   const handleAddToOrder = (item) => {
+    console.log('🛒 Adding item to order:', item);
+  
+    if (!item || !item.id) {
+      console.error('❌ Invalid item passed to handleAddToOrder:', item);
+      return;
+    }
+  
     setOrder((prevOrder) => {
       const existing = prevOrder.find((o) => o.id === item.id);
       if (existing) {
@@ -96,6 +103,7 @@ console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromU
       }
     });
   };
+  
 
   // 4. Place order
   const handlePlaceOrder = async () => {
