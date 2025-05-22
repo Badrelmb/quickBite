@@ -5,16 +5,19 @@ import defaultLogo from './img/default-restaurant-logo.png'; // <-- Add your def
 import { useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient'; // Adjust path as needed
 
-function RestaurantManagementPage() {
+function RestaurantManagementPage({ setShowCover }) {
   const [ownerID, setOwnerID] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const navigate = useNavigate();
 
   // Logout handler
-  const handleLogout = () => {
-    navigate('/');
-  };
+    const handleLogout = async () => {
+      await supabase.auth.signOut();     
+      setShowCover(true);                
+      navigate('/');                     
+    };
+    
 
   // Navigation buttons
   const goToTableManagement = () => {

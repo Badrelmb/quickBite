@@ -43,7 +43,7 @@ function AppRoutes() {
       <Route path="/customer-login" element={<CustomerLogin setShowCover={setShowCover} />} />
       <Route path="/customer-signup" element={<CustomerSignUp />} />
       <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
-      <Route path="/client-dashboard" element={<ClientDashboard />} />
+      <Route path="/client-dashboard" element={<ClientDashboard setShowCover={setShowCover} />} />
       <Route path="/client-order" element={<ClientOrderPage />} />
       <Route path="/scan-qr" element={<ScanQR />} />
       <Route path="/CustomerPage" element={<CustomerPage />} />
@@ -56,8 +56,8 @@ function AppRoutes() {
       {/* Manager flow */}
       <Route path="/post-login" element={<PostLoginPage />} />
       <Route path="/register-restaurant" element={<RegisterMyRestaurant />} />
-      <Route path="/restaurant-management" element={<RestaurantManagementPage />} />
-      <Route path="/menu-management" element={<MenuManagementPage />} />
+      <Route path="/restaurant-management" element={<RestaurantManagementPage setShowCover={setShowCover} />} />
+      <Route path="/menu-management" element={<MenuManagementPage setShowCover={setShowCover} />} />
       <Route path="/table-management" element={<TableManagement />} />
       <Route path="/orders" element={<Orders />} />
       <Route path="/sales-data" element={<SalesData />} />

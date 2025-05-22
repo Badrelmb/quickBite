@@ -4,7 +4,7 @@ import { supabase } from './supabaseClient';
 import logo from './logo_transparent.png';
 import './ClientDashboard.css';
 
-export default function ClientDashboard() {
+export default function ClientDashboard({ setShowCover }) {
   const navigate = useNavigate();
 const [clientID, setClientID] = useState('');
 const [isSearching, setIsSearching] = useState(false);

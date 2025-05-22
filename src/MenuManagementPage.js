@@ -5,7 +5,7 @@ import logo from './logo_transparent.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
-function MenuManagement() {
+function MenuManagement({ setShowCover }) {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedRestaurant = location.state?.selectedRestaurant;
