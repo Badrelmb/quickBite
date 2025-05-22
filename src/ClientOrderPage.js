@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 
 export default function ClientOrderPage() {
-  console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromURL });
+  
   const navigate = useNavigate();
   const [clientID, setClientID] = useState('');
   const [restaurantID, setRestaurantID] = useState(''); // you’ll pass this via prop or URL later
@@ -24,7 +24,7 @@ const restaurantFromURL = searchParams.get('restaurant_id');
 const tableFromURL = searchParams.get('table');
 
 
-
+console.log('🚀 Loaded ClientOrderPage with:', { restaurantFromURL, tableFromURL });
   // 1. Fetch authenticated client ID
   useEffect(() => {
     const getClientID = async () => {
